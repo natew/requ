@@ -1,6 +1,6 @@
 module.exports = function() {
 
-  function doXHR(method, url, opts) {
+  function doXHR(method, url, opts, callback) {
     var xhr = new XHR();
     var body = options.body || options.data;
     var doJSON = false;
@@ -11,7 +11,7 @@ module.exports = function() {
     xhr.method = method;
     xhr.headers = options.headers || {};
     xhr.onreadystatechange = readystatechange;
-    xhr.onload = load;
+    xhr.onload = load.bind(callback);
     xhr.onerror = error;
     xhr.ontimeout = timeout;
     xhr.onprogress = noop; // IE9
@@ -24,6 +24,16 @@ module.exports = function() {
 
     xhr.open(method, url, !sync);
     xhr.send(body);
+
+    function load() {
+      var error;
+      var status = xhr.statusCode || xhr.status;
+      var body = xhr.body || xhr.response || xhr.responseText;
+
+      if (status === 0 || (status >= 400 && status < 600)) {
+        var message = xhr.responseText || String(xhr.status);
+      }
+    }
   }
 
   function Req(type, url, opts) {
