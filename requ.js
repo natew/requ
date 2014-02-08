@@ -47,29 +47,31 @@ module.exports = function() {
   }
 
   function Req(opts) {
-    var thens = [];
+    var self = this;
+    self.thens = [];
 
     doXHR(opts, function(data) {
-      thens.forEach(function(then) {
-        then.call(then, data)
+      self.thens.forEach(function(then) {
+        then.call(then, data);
       });
     });
 
     return {
       then: function(callback) {
-        thens.push(callback);
+        self.thens.push(callback);
       }
     };
   }
 
-  function doReq(url, opts) {
-    return new Req({method: 'get', url: url}.extend(opts));
+  function doReq(method, url, opts) {
+    if (typeof url == 'string') opts = (opts || {}).extend({url: url});
+    return new Req({method: method}.extend(opts));
   }
 
   var requ = {};
   ['get', 'post', 'put', 'update'].forEach(function(method) {
     requ[method] = function(url, opts) {
-      return doReq(url, opts);
+      return doReq(method, url, opts);
     };
   });
 
