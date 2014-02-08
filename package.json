@@ -1,19 +1,19 @@
 {
-  "name": "rq",
+  "name": "requ",
   "version": "0.0.1",
   "description": "small xhr abstraction with promises",
   "keywords": [],
   "author": "Nate Wienert <natewienert@gmail.com>",
-  "repository": "git://github.com/natew/rq.git",
+  "repository": "git://github.com/natew/requ.git",
   "main": "index",
-  "homepage": "https://github.com/natew/rq",
+  "homepage": "https://github.com/natew/requ",
   "contributors": [
     {
       "name": "Nate Wienert"
     }
   ],
   "bugs": {
-    "url": "https://github.com/natew/rq/issues",
+    "url": "https://github.com/natew/requ/issues",
     "email": "natewienert@gmail.com"
   },
   "dependencies": {},
@@ -23,7 +23,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/natew/rq/raw/master/LICENSE"
+      "url": "http://github.com/natew/requ/raw/master/LICENSE"
     }
   ],
   "scripts": {
