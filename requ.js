@@ -1,6 +1,16 @@
 module.exports = function() {
 
-  function doXHR(method, url, opts, callback) {
+  Object.extend = function(dest, src) {
+    for (var property in src)
+      src.hasOwnProperty(property) &&
+        dest[property] = src[property];
+
+    return dest;
+  };
+
+  function doXHR(opts, callback) {
+    var url = opts.url;
+    var method = opts.method;
     var xhr = new XHR();
     var body = options.body || options.data;
     var doJSON = false;
@@ -36,10 +46,10 @@ module.exports = function() {
     }
   }
 
-  function Req(type, url, opts) {
+  function Req(opts) {
     var thens = [];
 
-    doXHR(type, url, opts, function(data) {
+    doXHR(opts, function(data) {
       thens.forEach(function(then) {
         then.call(then, data)
       });
@@ -52,14 +62,16 @@ module.exports = function() {
     };
   }
 
-  return {
-    get: function(url, opts) {
-      return new Req('get', url, opts);
-    },
+  function doReq(url, opts) {
+    return new Req({method: 'get', url: url}.extend(opts));
+  }
 
-    post: function(url, opts) {
-      return new Req('post', url, opts);
-    }
-  };
+  var requ = {};
+  ['get', 'post', 'put', 'update'].forEach(function(method) {
+    requ[method] = function(url, opts) {
+      return doReq(url, opts);
+    };
+  });
 
+  return requ;
 };
